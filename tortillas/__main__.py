@@ -146,6 +146,8 @@ def main():
     log.info("")
     log.info(summary)
 
+    test_runner.get_json_test_summary()
+
     logging.shutdown()
     sys.exit(not test_runner.success)
 

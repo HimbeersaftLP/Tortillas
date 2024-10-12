@@ -3,6 +3,7 @@
 from __future__ import annotations
 from typing import Any, Callable
 
+import json
 import sys
 import time
 import threading
@@ -257,6 +258,30 @@ class TestRunner:
         (SWEB_BUILD_DIR / "tortillas_summary.md").write_text(summary)
 
         return summary
+
+    def get_json_test_summary(self) -> str:
+        """
+        Get a machine readable summary of all test runs.
+        The summary contains table of tests with their run status and
+        a summary of all errors that occurred.
+        """
+
+        self.test_runs.sort(key=repr)
+        self.test_runs.sort(key=(lambda test: test.result.status.value))
+
+        summary = {
+            "disabled_specs": [spec.test_name for spec in self.disabled_specs],
+            "test_runs": {}
+        }
+
+        for run in self.test_runs:
+            summary["test_runs"][repr(run)] = run.result.status.name
+
+        json_str = json.dumps(summary)
+
+        (SWEB_BUILD_DIR / "tortillas_summary.json").write_text(json_str)
+
+        return json_str
 
 
 def _create_snapshot(architecture: str, label: str, config: TortillasConfig):

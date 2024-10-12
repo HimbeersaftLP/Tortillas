@@ -14,4 +14,5 @@ VOLUME /output
 
 CMD python3 -m tortillas -S /sweb && \
     mv /tmp/sweb/tortillas_summary.md /output/ && \
+    mv /tmp/sweb/tortillas_summary.json /output/ && \
     bash -c 'for file in /tmp/sweb/tortillas/**/out.log; do new="${file:20}"; new="${new%/out.log}"; mv "${file}" "/output/${new}.log"; done'
