@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM node:lts-bookworm
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get upgrade -y \
   && apt-get install --no-install-recommends -y qemu-utils qemu-system-x86 python3 python3-yaml build-essential cmake gcc-x86-64-linux-gnu g++-x86-64-linux-gnu
